@@ -7,7 +7,7 @@ namespace AggregationService.Tests.Integration
     using Microsoft.Owin.Security.OAuth;
     using Owin;
     using AggregationService.Auth;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
     using AggregationService.Formatting;
 
     public class TestStartup

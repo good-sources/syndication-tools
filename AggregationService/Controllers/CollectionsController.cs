@@ -5,7 +5,7 @@ namespace AggregationService.Controllers
     using System.Web.Http;
     using NLog;
     using AggregationService.Domain.Models;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
 
     [Authorize]
     [RoutePrefix("api/collections")]

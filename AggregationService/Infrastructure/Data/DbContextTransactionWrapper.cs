@@ -1,6 +1,7 @@
-namespace AggregationService.Domain.Services
+namespace AggregationService.Infrastructure.Data
 {
     using System.Data.Entity;
+    using AggregationService.Domain.Interfaces;
 
     internal class DbContextTransactionWrapper : ITransaction
     {

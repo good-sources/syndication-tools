@@ -1,4 +1,4 @@
-﻿namespace AggregationService.Domain.Services
+﻿namespace AggregationService.Infrastructure.Workers
 {
     using System;
     using System.Net;
@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NLog;
+    using AggregationService.Domain.Interfaces;
     using AggregationService.Domain.Models;
 
     internal class Reader : IReader

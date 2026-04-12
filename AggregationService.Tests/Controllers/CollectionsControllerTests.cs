@@ -10,7 +10,7 @@ namespace AggregationService.Tests.Controllers
     using NUnit.Framework;
     using AggregationService.Controllers;
     using AggregationService.Domain.Models;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
 
     [TestFixture]
     public class CollectionsControllerTests

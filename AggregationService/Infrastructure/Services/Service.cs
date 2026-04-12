@@ -1,9 +1,11 @@
-namespace AggregationService.Domain.Services
+namespace AggregationService.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Threading.Tasks;
+    using AggregationService.Domain.Interfaces;
+    using AggregationService.Infrastructure.Data;
 
     public abstract class Service<T> : IDisposable where T : class
     {

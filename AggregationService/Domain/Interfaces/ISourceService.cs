@@ -1,4 +1,4 @@
-namespace AggregationService.Domain.Services
+namespace AggregationService.Domain.Interfaces
 {
     using System;
     using System.Collections.Generic;

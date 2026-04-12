@@ -4,7 +4,7 @@ namespace AggregationService.Tests.Integration
     using System.Collections.Generic;
     using System.Web.Http.Dependencies;
     using AggregationService.Controllers;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
 
     public class TestDependencyResolver : IDependencyResolver
     {

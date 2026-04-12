@@ -4,7 +4,7 @@ namespace AggregationService.Controllers
     using System.Threading.Tasks;
     using System.Web.Http;
     using NLog;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
 
     [Authorize]
     [RoutePrefix("api/contents")]

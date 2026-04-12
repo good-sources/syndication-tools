@@ -3,7 +3,10 @@ namespace AggregationService
     using System;
     using System.Collections.Generic;
     using System.Web.Http.Dependencies;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
+    using AggregationService.Infrastructure.Data;
+    using AggregationService.Infrastructure.Services;
+    using AggregationService.Infrastructure.Workers;
 
     public class DependencyScope : IDependencyScope
     {

@@ -1,8 +1,8 @@
-namespace AggregationService.Tests.Domain.Services.Utilities
+namespace AggregationService.Tests.Infrastructure.Utilities
 {
     using System;
     using NUnit.Framework;
-    using AggregationService.Domain.Services;
+    using AggregationService.Infrastructure.Utilities;
 
     [TestFixture]
     public class DateTimeConverterTests

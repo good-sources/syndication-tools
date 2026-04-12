@@ -98,10 +98,10 @@
     <Compile Include="Controllers\CollectionsControllerTests.cs" />
     <Compile Include="Controllers\ContentsControllerTests.cs" />
     <Compile Include="Controllers\SourcesControllerTests.cs" />
-    <Compile Include="Domain\Services\ContentServiceTests.cs" />
-    <Compile Include="Domain\Services\SourceServiceTests.cs" />
-    <Compile Include="Domain\Services\Utilities\DateTimeConverterTests.cs" />
-    <Compile Include="Domain\Services\Workers\ParserTests.cs" />
+    <Compile Include="Infrastructure\Services\ContentServiceTests.cs" />
+    <Compile Include="Infrastructure\Services\SourceServiceTests.cs" />
+    <Compile Include="Infrastructure\Utilities\DateTimeConverterTests.cs" />
+    <Compile Include="Infrastructure\Workers\ParserTests.cs" />
     <Compile Include="Formatting\PolymorphicSourceConverterTests.cs" />
     <Compile Include="Integration\AuthIntegrationTests.cs" />
     <Compile Include="Integration\CollectionsIntegrationTests.cs" />

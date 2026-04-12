@@ -1,9 +1,10 @@
-﻿namespace AggregationService.Domain.Services
+﻿namespace AggregationService.Infrastructure.Workers
 {
     using System.Xml;
     using System.Collections.Generic;
     using NLog;
     using AggregationService.Domain.Models;
+    using AggregationService.Infrastructure.Utilities;
 
     internal class Parser
     {

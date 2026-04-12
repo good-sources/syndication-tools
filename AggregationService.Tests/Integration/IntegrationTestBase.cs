@@ -11,7 +11,7 @@ namespace AggregationService.Tests.Integration
     using Moq;
     using Newtonsoft.Json;
     using NUnit.Framework;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
 
     public abstract class IntegrationTestBase
     {

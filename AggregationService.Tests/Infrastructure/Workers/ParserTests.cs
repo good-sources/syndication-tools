@@ -1,7 +1,7 @@
-namespace AggregationService.Tests.Domain.Services.Workers
+namespace AggregationService.Tests.Infrastructure.Workers
 {
     using AggregationService.Domain.Models;
-    using AggregationService.Domain.Services;
+    using AggregationService.Infrastructure.Workers;
     using NUnit.Framework;
     using System.Linq;
     using System.Xml;

@@ -1,4 +1,4 @@
-namespace AggregationService.Tests.Domain.Services
+namespace AggregationService.Tests.Infrastructure.Services
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,9 @@ namespace AggregationService.Tests.Domain.Services
     using System.Threading.Tasks;
     using Moq;
     using NUnit.Framework;
+    using AggregationService.Domain.Interfaces;
     using AggregationService.Domain.Models;
-    using AggregationService.Domain.Services;
+    using AggregationService.Infrastructure.Services;
     using AggregationService.Tests.TestHelpers;
 
     [TestFixture]

@@ -1,10 +1,11 @@
-namespace AggregationService.Domain.Services
+namespace AggregationService.Infrastructure.Services
 {
     using System;
     using System.Linq;
     using System.Data.Entity;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AggregationService.Domain.Interfaces;
     using AggregationService.Domain.Models;
 
     public class CollectionService : Service<Collection>, ICollectionService

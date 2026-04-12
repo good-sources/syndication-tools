@@ -4,7 +4,7 @@ namespace AggregationService.Migrations
     using System.Linq;
     using System.Data.Entity;   
     using System.Data.Entity.Migrations;
-    using AggregationService.Domain;
+    using AggregationService.Infrastructure.Data;
 
     internal sealed class Configuration : DbMigrationsConfiguration<AggregationServiceContext>
     {

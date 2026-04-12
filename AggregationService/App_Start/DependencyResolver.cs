@@ -3,7 +3,7 @@ namespace AggregationService
     using System;
     using System.Collections.Generic;
     using System.Web.Http.Dependencies;
-    using AggregationService.Domain.Services;
+    using AggregationService.Infrastructure.Workers;
 
     public class DependencyResolver : IDependencyResolver
     {

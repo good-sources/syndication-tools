@@ -6,7 +6,7 @@ namespace AggregationService.Controllers
     using NLog;
     using AggregationService.Domain.Models;
     using System.Data.Entity.Infrastructure;
-    using AggregationService.Domain.Services;
+    using AggregationService.Domain.Interfaces;
 
     [Authorize]
     [RoutePrefix("api/sources")]

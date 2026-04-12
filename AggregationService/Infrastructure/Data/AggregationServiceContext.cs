@@ -1,4 +1,4 @@
-﻿namespace AggregationService
+﻿namespace AggregationService.Infrastructure.Data
 {
     using System.Data.Entity;
     using AggregationService.Domain.Models;

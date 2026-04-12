@@ -127,17 +127,18 @@
     <Compile Include="Controllers\CollectionsController.cs" />
     <Compile Include="Controllers\ContentsController.cs" />
     <Compile Include="Controllers\SourcesController.cs" />
-    <Compile Include="Domain\Services\Utilities\DateTimeConverter.cs" />
-    <Compile Include="Domain\Services\Workers\Parser.cs" />
-    <Compile Include="Domain\Services\Workers\Reader.cs" />
-    <Compile Include="Domain\Services\ContentService.cs" />
-    <Compile Include="Domain\Services\DbContextTransactionWrapper.cs" />
-    <Compile Include="Domain\Services\Interfaces\IContentService.cs" />
-    <Compile Include="Domain\Services\Interfaces\IReader.cs" />
-    <Compile Include="Domain\Services\Interfaces\ITransaction.cs" />
-    <Compile Include="Domain\Services\Interfaces\ISourceService.cs" />
-    <Compile Include="Domain\Services\Service.cs" />
-    <Compile Include="Domain\Services\SourceService.cs" />
+    <Compile Include="Domain\Interfaces\IContentService.cs" />
+    <Compile Include="Domain\Interfaces\IReader.cs" />
+    <Compile Include="Domain\Interfaces\ITransaction.cs" />
+    <Compile Include="Domain\Interfaces\ISourceService.cs" />
+    <Compile Include="Infrastructure\Data\AggregationServiceContext.cs" />
+    <Compile Include="Infrastructure\Data\DbContextTransactionWrapper.cs" />
+    <Compile Include="Infrastructure\Services\Service.cs" />
+    <Compile Include="Infrastructure\Services\ContentService.cs" />
+    <Compile Include="Infrastructure\Services\SourceService.cs" />
+    <Compile Include="Infrastructure\Utilities\DateTimeConverter.cs" />
+    <Compile Include="Infrastructure\Workers\Parser.cs" />
+    <Compile Include="Infrastructure\Workers\Reader.cs" />
     <Compile Include="Formatting\MediaTypeFormatters\PolymorphicSourceConverter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -171,7 +172,7 @@
       <DependentUpon>201901201706595_ChangeFeedTitleAndRssFeedDescriptionFieldsToNullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Domain\AggregationServiceContext.cs" />
+    <Compile Include="Domain\Interfaces\ICollectionService.cs" />
     <Compile Include="Domain\Models\Collection.cs" />
     <Compile Include="Domain\Models\Content\Content.cs" />
     <Compile Include="Domain\Models\Content\FeedContent.cs" />
@@ -180,8 +181,7 @@
     <Compile Include="Domain\Models\Source\Feed.cs" />
     <Compile Include="Domain\Models\Source\RssFeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\Services\CollectionService.cs" />
-    <Compile Include="Domain\Services\Interfaces\ICollectionService.cs" />
+    <Compile Include="Infrastructure\Services\CollectionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

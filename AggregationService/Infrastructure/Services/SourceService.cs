@@ -1,4 +1,4 @@
-namespace AggregationService.Domain.Services
+namespace AggregationService.Infrastructure.Services
 {
     using System;
     using System.Linq;
@@ -6,6 +6,7 @@ namespace AggregationService.Domain.Services
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NLog;
+    using AggregationService.Domain.Interfaces;
     using AggregationService.Domain.Models;
 
     public class SourceService : Service<Source>, ISourceService
