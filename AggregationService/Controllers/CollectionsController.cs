@@ -1,10 +1,8 @@
 namespace AggregationService.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
-    using NLog;
     using AggregationService.Domain.Models;
     using AggregationService.Domain.Interfaces;
     using AggregationService.Contracts.Mapping;
@@ -15,7 +13,6 @@ namespace AggregationService.Controllers
     [RoutePrefix("api/collections")]
     public class CollectionsController : ApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ICollectionService _collectionService;
 
         public CollectionsController(ICollectionService collectionService)
@@ -26,32 +23,16 @@ namespace AggregationService.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            try
-            {
-                var collections = await _collectionService.GetAsync();
-                var response = MapperConfig.Mapper.Map<IEnumerable<CollectionResponse>>(collections);
-                return Json(response);
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Failed to retrieve collections");
-                return InternalServerError(ex);
-            }
+            var collections = await _collectionService.GetAsync();
+            var response = MapperConfig.Mapper.Map<IEnumerable<CollectionResponse>>(collections);
+            return Json(response);
         }
 
         [Route("")]
         public async Task<IHttpActionResult> Post(CreateCollectionRequest request)
         {
-            try
-            {
-                var collection = MapperConfig.Mapper.Map<Collection>(request);
-                return Json(await _collectionService.AddAsync(collection));
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Failed to create collection");
-                return InternalServerError(ex);
-            }
+            var collection = MapperConfig.Mapper.Map<Collection>(request);
+            return Json(await _collectionService.AddAsync(collection));
         }
     }
 }

@@ -20,7 +20,8 @@ Controllers  →  Contracts (DTOs)  →  Services  →  Domain Models  →  Enti
 - **Table-per-type (TPT) inheritance mapping** in Entity Framework for `Source` and `Content` hierarchies
 - **OWIN middleware pipeline** for composable request processing (CORS, OAuth, Web API)
 - **Centralized exception logging** through a custom `IExceptionLogger` implementation
-- **Validation action filter** — a global `ValidateModelAttribute` automatically returns `400 Bad Request` for invalid model state, eliminating repetitive validation checks in controllers
+- **Standardized error handling** — a global `ApiExceptionFilterAttribute` catches unhandled exceptions and returns a consistent `ApiError` JSON envelope with `Message`, `Code`, and optional `Errors` dictionary. `DbUpdateException` maps to `409 Conflict`, all other exceptions to `500 Internal Server Error` with no stack trace leakage
+- **Validation action filter** — a global `ValidateModelAttribute` automatically returns `400 Bad Request` with the same `ApiError` envelope, including per-field validation errors
 
 ## Solution Structure
 
@@ -35,9 +36,9 @@ Controllers  →  Contracts (DTOs)  →  Services  →  Domain Models  →  Enti
 | Folder | Contents |
 |---|---|
 | `Contracts/Requests` | Inbound DTOs (`CreateCollectionRequest`, `CreateSourceRequest`) |
-| `Contracts/Responses` | Outbound DTOs (`CollectionResponse`, `SourceResponse`, `ContentResponse`) |
+| `Contracts/Responses` | Outbound DTOs (`CollectionResponse`, `SourceResponse`, `ContentResponse`) and the standard `ApiError` envelope |
 | `Contracts/Mapping` | AutoMapper profiles and configuration |
-| `App_Start/Filters` | Global action filters (`ValidateModelAttribute`) |
+| `App_Start/Filters` | Global action filters (`ValidateModelAttribute`, `ApiExceptionFilterAttribute`) |
 | `Controllers` | Web API controllers |
 | `Domain/Interfaces` | Service and infrastructure abstractions |
 | `Domain/Models` | Entity classes (`Source`, `Content`, `Collection` hierarchies) |
@@ -82,6 +83,24 @@ All endpoints (except token acquisition) require a valid bearer token in the `Au
 | `POST` | `/api/sources` | Add a source to a collection (fetches initial content) |
 | `GET` | `/api/supportedsourcetypes` | List supported source types |
 | `GET` | `/api/contents/bycollection/{id}` | Retrieve aggregated content for a collection |
+
+## Error Responses
+
+All error responses follow a consistent JSON envelope:
+
+```json
+{
+  "Message": "A conflicting record already exists.",
+  "Code": "CONFLICT",
+  "Errors": null
+}
+```
+
+| HTTP Status | Code | When |
+|---|---|---|
+| `400` | `VALIDATION_ERROR` | Request body fails model validation. `Errors` contains per-field messages. |
+| `409` | `CONFLICT` | Duplicate record detected (e.g., adding an existing source). |
+| `500` | `INTERNAL_ERROR` | Unhandled server exception. No internal details are exposed. |
 
 ## Testing
 

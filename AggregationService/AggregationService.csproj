@@ -121,6 +121,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Filters\ApiExceptionFilterAttribute.cs" />
     <Compile Include="App_Start\Filters\ValidateModelAttribute.cs" />
     <Compile Include="App_Start\NLogExceptionLogger.cs" />
     <Compile Include="App_Start\Startup.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Infrastructure\Utilities\DateTimeConverter.cs" />
     <Compile Include="Infrastructure\Workers\Parser.cs" />
     <Compile Include="Infrastructure\Workers\Reader.cs" />
+    <Compile Include="Contracts\Responses\ApiError.cs" />
     <Compile Include="Contracts\Responses\CollectionResponse.cs" />
     <Compile Include="Contracts\Responses\SourceResponse.cs" />
     <Compile Include="Contracts\Responses\ContentResponse.cs" />

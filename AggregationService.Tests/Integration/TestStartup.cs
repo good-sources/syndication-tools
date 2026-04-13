@@ -9,6 +9,7 @@ namespace AggregationService.Tests.Integration
     using AggregationService.Auth;
     using AggregationService.Domain.Interfaces;
     using AggregationService.Contracts.Mapping;
+    using AggregationService.Filters;
 
     public class TestStartup
     {
@@ -46,6 +47,8 @@ namespace AggregationService.Tests.Integration
             var config = new HttpConfiguration();
             config.DependencyResolver = new TestDependencyResolver(
                 _collectionService, _contentService, _sourceService);
+            config.Filters.Add(new ValidateModelAttribute());
+            config.Filters.Add(new ApiExceptionFilterAttribute());
             config.MapHttpAttributeRoutes();
 
             app.UseWebApi(config);

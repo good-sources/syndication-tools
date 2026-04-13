@@ -15,6 +15,7 @@ namespace AggregationService
             config.DependencyResolver = new DependencyResolver();
             config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
             config.Filters.Add(new ValidateModelAttribute());
+            config.Filters.Add(new ApiExceptionFilterAttribute());
 
             // Web API routes
             config.MapHttpAttributeRoutes();

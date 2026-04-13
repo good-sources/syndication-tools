@@ -56,13 +56,11 @@ namespace AggregationService.Tests.Controllers
         }
 
         [Test]
-        public void GetSupportedTypes_ReturnsInternalServerError_WhenServiceThrows()
+        public void GetSupportedTypes_ThrowsException_WhenServiceThrows()
         {
             _mockService.Setup(s => s.GetSupportedTypes()).Throws(new Exception("Error"));
 
-            var result = _controller.GetSupportedTypes();
-
-            Assert.That(result, Is.TypeOf<ExceptionResult>());
+            Assert.Throws<Exception>(() => _controller.GetSupportedTypes());
         }
 
         [Test]
@@ -96,7 +94,7 @@ namespace AggregationService.Tests.Controllers
                 new Mock<System.Web.Http.Controllers.HttpActionDescriptor>().Object);
             actionContext.ModelState.AddModelError("Uri", "Required");
 
-            var filter = new Filters.ValidateModelAttribute();
+            var filter = new AggregationService.Filters.ValidateModelAttribute();
             filter.OnActionExecuting(actionContext);
 
             Assert.That(actionContext.Response, Is.Not.Null);
@@ -104,7 +102,7 @@ namespace AggregationService.Tests.Controllers
         }
 
         [Test]
-        public async Task Post_ReturnsConflict_WhenDbUpdateExceptionThrown()
+        public void Post_ThrowsDbUpdateException_WhenDuplicateSource()
         {
             _mockService.Setup(s => s.AddAsync(It.IsAny<Source>()))
                 .ThrowsAsync(new DbUpdateException("Duplicate"));
@@ -115,13 +113,12 @@ namespace AggregationService.Tests.Controllers
                 Uri = "https://example.com/feed",
                 CollectionId = Guid.NewGuid()
             };
-            var result = await _controller.Post(request);
 
-            Assert.That(result, Is.TypeOf<ConflictResult>());
+            Assert.ThrowsAsync<DbUpdateException>(() => _controller.Post(request));
         }
 
         [Test]
-        public async Task Post_ReturnsInternalServerError_WhenGeneralExceptionThrown()
+        public void Post_ThrowsException_WhenGeneralExceptionThrown()
         {
             _mockService.Setup(s => s.AddAsync(It.IsAny<Source>()))
                 .ThrowsAsync(new Exception("Unexpected error"));
@@ -132,9 +129,8 @@ namespace AggregationService.Tests.Controllers
                 Uri = "https://example.com/feed",
                 CollectionId = Guid.NewGuid()
             };
-            var result = await _controller.Post(request);
 
-            Assert.That(result, Is.TypeOf<ExceptionResult>());
+            Assert.ThrowsAsync<Exception>(() => _controller.Post(request));
         }
     }
 }

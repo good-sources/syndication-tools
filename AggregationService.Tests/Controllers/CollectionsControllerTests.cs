@@ -59,13 +59,11 @@ namespace AggregationService.Tests.Controllers
         }
 
         [Test]
-        public async Task Get_ReturnsInternalServerError_WhenServiceThrows()
+        public void Get_ThrowsException_WhenServiceThrows()
         {
             _mockService.Setup(s => s.GetAsync()).ThrowsAsync(new Exception("DB error"));
 
-            var result = await _controller.Get();
-
-            Assert.That(result, Is.TypeOf<ExceptionResult>());
+            Assert.ThrowsAsync<Exception>(() => _controller.Get());
         }
 
         [Test]
@@ -93,7 +91,7 @@ namespace AggregationService.Tests.Controllers
                 new Mock<System.Web.Http.Controllers.HttpActionDescriptor>().Object);
             actionContext.ModelState.AddModelError("Name", "Required");
 
-            var filter = new Filters.ValidateModelAttribute();
+            var filter = new AggregationService.Filters.ValidateModelAttribute();
             filter.OnActionExecuting(actionContext);
 
             Assert.That(actionContext.Response, Is.Not.Null);
@@ -101,14 +99,13 @@ namespace AggregationService.Tests.Controllers
         }
 
         [Test]
-        public async Task Post_ReturnsInternalServerError_WhenServiceThrows()
+        public void Post_ThrowsException_WhenServiceThrows()
         {
             _mockService.Setup(s => s.AddAsync(It.IsAny<Collection>()))
                 .ThrowsAsync(new Exception("DB error"));
 
-            var result = await _controller.Post(new CreateCollectionRequest { Name = "Test" });
-
-            Assert.That(result, Is.TypeOf<ExceptionResult>());
+            Assert.ThrowsAsync<Exception>(() =>
+                _controller.Post(new CreateCollectionRequest { Name = "Test" }));
         }
     }
 }

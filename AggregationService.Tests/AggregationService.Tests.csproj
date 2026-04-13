@@ -99,6 +99,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\ApiExceptionFilterAttributeTests.cs" />
     <Compile Include="Controllers\CollectionsControllerTests.cs" />
     <Compile Include="Controllers\ContentsControllerTests.cs" />
     <Compile Include="Controllers\SourcesControllerTests.cs" />

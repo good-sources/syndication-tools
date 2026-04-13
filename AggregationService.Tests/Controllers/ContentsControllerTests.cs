@@ -59,15 +59,13 @@ namespace AggregationService.Tests.Controllers
         }
 
         [Test]
-        public async Task GetByCollection_ReturnsInternalServerError_WhenServiceThrows()
+        public void GetByCollection_ThrowsException_WhenServiceThrows()
         {
             var collectionId = Guid.NewGuid();
             _mockService.Setup(s => s.GetByCollectionAsync(collectionId))
                 .ThrowsAsync(new Exception("DB error"));
 
-            var result = await _controller.GetByCollection(collectionId);
-
-            Assert.That(result, Is.TypeOf<ExceptionResult>());
+            Assert.ThrowsAsync<Exception>(() => _controller.GetByCollection(collectionId));
         }
 
         [Test]
