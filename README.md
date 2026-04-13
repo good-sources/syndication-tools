@@ -4,18 +4,19 @@ A prototype data aggregation service that collects, caches, and serves content f
 
 ## Architecture
 
-The solution follows a layered architecture:
+The solution follows a layered architecture with clear separation between domain logic and infrastructure concerns:
 
 ```
-Controllers  →  Services  →  Domain Models  →  Entity Framework  →  SQL Server
+Controllers  →  Contracts (DTOs)  →  Services  →  Domain Models  →  Entity Framework  →  SQL Server
 ```
 
 **Design patterns and approaches applied:**
 
+- **DTO layer with AutoMapper** — request/response objects in `Contracts/` decouple the API contract from domain models
+- **Domain/Infrastructure separation** — domain interfaces and models live under `Domain/`, while implementations (data access, services, workers) live under `Infrastructure/`
 - **Generic service base class** with reusable CRUD operations across all entity types
 - **Factory-based dependency injection** with per-request scoping (custom `IDependencyResolver`)
 - **Transaction wrapper** (`ITransaction`) for atomic multi-step operations
-- **Polymorphic JSON serialization** via a custom `JsonConverter` supporting the `Source` type hierarchy
 - **Table-per-type (TPT) inheritance mapping** in Entity Framework for `Source` and `Content` hierarchies
 - **OWIN middleware pipeline** for composable request processing (CORS, OAuth, Web API)
 - **Centralized exception logging** through a custom `IExceptionLogger` implementation
@@ -26,7 +27,21 @@ Controllers  →  Services  →  Domain Models  →  Entity Framework  →  SQL 
 |---|---|
 | **AggregationService** | ASP.NET Web API 2 REST service hosted on OWIN. Implements feed aggregation, HTTP-compliant caching, OAuth 2.0 authentication, and content revalidation. |
 | **AggregationService.Tests** | Unit and integration test suite covering controllers, services, utilities, and full HTTP pipeline scenarios. |
-| **AggregationServiceClient** | Console application that consumes the AggregationService API through an interactive menu-driven interface. |
+| **AggregationServiceClient** | Console application that consumes the AggregationService API through an interactive menu-driven interface. Uses its own client-side models for deserialization. |
+
+### AggregationService Project Layout
+
+| Folder | Contents |
+|---|---|
+| `Contracts/Requests` | Inbound DTOs (`CreateCollectionRequest`, `CreateSourceRequest`) |
+| `Contracts/Responses` | Outbound DTOs (`CollectionResponse`, `SourceResponse`, `ContentResponse`) |
+| `Contracts/Mapping` | AutoMapper profiles and configuration |
+| `Controllers` | Web API controllers |
+| `Domain/Interfaces` | Service and infrastructure abstractions |
+| `Domain/Models` | Entity classes (`Source`, `Content`, `Collection` hierarchies) |
+| `Infrastructure/Data` | EF `DbContext` and transaction wrapper |
+| `Infrastructure/Services` | Service implementations (CRUD, business logic) |
+| `Infrastructure/Workers` | Feed reader and parser |
 
 ## Technologies
 
@@ -39,6 +54,7 @@ Controllers  →  Services  →  Domain Models  →  Entity Framework  →  SQL 
 | Database | SQL Server LocalDB | — |
 | Authentication | OAuth 2.0 (Bearer Tokens) | — |
 | Logging | NLog | 5.4.0 |
+| Object Mapping | AutoMapper | 10.1.1 |
 | Serialization | Newtonsoft.Json | 13.0.4 |
 | Testing | NUnit | 3.14.0 |
 | Mocking | Moq | 4.18.4 |
