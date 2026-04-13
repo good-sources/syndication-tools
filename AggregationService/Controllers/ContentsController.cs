@@ -1,10 +1,13 @@
 namespace AggregationService.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
     using NLog;
     using AggregationService.Domain.Interfaces;
+    using AggregationService.Contracts.Mapping;
+    using AggregationService.Contracts.Responses;
 
     [Authorize]
     [RoutePrefix("api/contents")]
@@ -23,7 +26,9 @@ namespace AggregationService.Controllers
         {
             try
             {
-                return Json(await _contentService.GetByCollectionAsync(id));
+                var contents = await _contentService.GetByCollectionAsync(id);
+                var response = MapperConfig.Mapper.Map<IEnumerable<ContentResponse>>(contents);
+                return Json(response);
             }
             catch (Exception ex)
             {

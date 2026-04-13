@@ -11,12 +11,21 @@ namespace AggregationService.Tests.Controllers
     using AggregationService.Controllers;
     using AggregationService.Domain.Models;
     using AggregationService.Domain.Interfaces;
+    using AggregationService.Contracts.Mapping;
+    using AggregationService.Contracts.Requests;
+    using AggregationService.Contracts.Responses;
 
     [TestFixture]
     public class CollectionsControllerTests
     {
         private Mock<ICollectionService> _mockService;
         private CollectionsController _controller;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            MapperConfig.Initialize();
+        }
 
         [SetUp]
         public void SetUp()
@@ -46,7 +55,7 @@ namespace AggregationService.Tests.Controllers
 
             var result = await _controller.Get();
 
-            Assert.That(result, Is.TypeOf<JsonResult<IEnumerable<Collection>>>());
+            Assert.That(result, Is.TypeOf<JsonResult<IEnumerable<CollectionResponse>>>());
         }
 
         [Test]
@@ -65,7 +74,7 @@ namespace AggregationService.Tests.Controllers
             var expectedId = Guid.NewGuid();
             _mockService.Setup(s => s.AddAsync(It.IsAny<Collection>())).ReturnsAsync(expectedId);
 
-            var result = await _controller.Post(new Collection { Name = "New" });
+            var result = await _controller.Post(new CreateCollectionRequest { Name = "New" });
 
             Assert.That(result, Is.TypeOf<JsonResult<Guid>>());
             var jsonResult = (JsonResult<Guid>)result;
@@ -77,7 +86,7 @@ namespace AggregationService.Tests.Controllers
         {
             _controller.ModelState.AddModelError("Name", "Required");
 
-            var result = await _controller.Post(new Collection());
+            var result = await _controller.Post(new CreateCollectionRequest());
 
             Assert.That(result, Is.TypeOf<InvalidModelStateResult>());
         }
@@ -88,7 +97,7 @@ namespace AggregationService.Tests.Controllers
             _mockService.Setup(s => s.AddAsync(It.IsAny<Collection>()))
                 .ThrowsAsync(new Exception("DB error"));
 
-            var result = await _controller.Post(new Collection { Name = "Test" });
+            var result = await _controller.Post(new CreateCollectionRequest { Name = "Test" });
 
             Assert.That(result, Is.TypeOf<ExceptionResult>());
         }

@@ -1,11 +1,15 @@
 namespace AggregationService.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
     using NLog;
     using AggregationService.Domain.Models;
     using AggregationService.Domain.Interfaces;
+    using AggregationService.Contracts.Mapping;
+    using AggregationService.Contracts.Requests;
+    using AggregationService.Contracts.Responses;
 
     [Authorize]
     [RoutePrefix("api/collections")]
@@ -24,7 +28,9 @@ namespace AggregationService.Controllers
         {
             try
             {
-                return Json(await _collectionService.GetAsync());
+                var collections = await _collectionService.GetAsync();
+                var response = MapperConfig.Mapper.Map<IEnumerable<CollectionResponse>>(collections);
+                return Json(response);
             }
             catch (Exception ex)
             {
@@ -34,7 +40,7 @@ namespace AggregationService.Controllers
         }
 
         [Route("")]
-        public async Task<IHttpActionResult> Post(Collection collection)
+        public async Task<IHttpActionResult> Post(CreateCollectionRequest request)
         {
             try
             {
@@ -43,6 +49,7 @@ namespace AggregationService.Controllers
                     return BadRequest(ModelState);
                 }
 
+                var collection = MapperConfig.Mapper.Map<Collection>(request);
                 return Json(await _collectionService.AddAsync(collection));
             }
             catch (Exception ex)

@@ -1,31 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using AggregationService.Domain.Models;
+using AggregationServiceClient.Models;
 
 namespace AggregationServiceClient
 {
     class OutputFormatter
     {
-        public string FormatCollections(IEnumerable<Collection> collections)
+        public string FormatCollections(IEnumerable<CollectionModel> collections)
         {
             string output = (collections.Count() > 0) ? "" : "No collections\n";
 
-            foreach (Collection collection in collections)
+            foreach (CollectionModel collection in collections)
             {
                 output = output + collection.Name + "\n";
             }
 
             return output;
-        }
-
-        public string FormatRssFeed(RssFeed feed)
-        {
-            if (feed == null)
-            {
-                return string.Empty;
-            }
-
-            return $"Title: {feed.Title ?? string.Empty}\nDescription: {feed.Description ?? string.Empty}\nLink: {feed.Link ?? string.Empty}\n\n";
         }
 
         public string FormatSourceTypesDictionary(IDictionary<string, int> sourceTypes)
@@ -45,16 +35,13 @@ namespace AggregationServiceClient
             return output;
         }
 
-        public string FormatContents(IEnumerable<Content> contents, string collectionName)
+        public string FormatContents(IEnumerable<ContentModel> contents, string collectionName)
         {
             string output = (contents.Count() > 0) ? $"Contents for {collectionName} collection:\n\n" : "No contents for the specified collection\n";
 
-            foreach (Content content in contents)
+            foreach (ContentModel content in contents)
             {
-                if (content.GetType() == typeof(RssItem))
-                {
-                    output = output + FormatRssItem((RssItem)content);
-                }
+                output = output + $"Title: {content.Title ?? string.Empty}\nDescription: {content.Description ?? string.Empty}\nAuthor: {content.Author ?? string.Empty}\nLink: {content.Link ?? string.Empty}";
 
                 if (content.Published.HasValue)
                 {
@@ -65,16 +52,6 @@ namespace AggregationServiceClient
             }
 
             return output;
-        }
-
-        public string FormatRssItem(RssItem item)
-        {
-            if (item == null)
-            {
-                return string.Empty;
-            }
-            
-            return $"Title: {item.Title ?? string.Empty}\nDescription: {item.Description ?? string.Empty}\nAuthor: {item.Author ?? string.Empty}\nLink: {item.Link ?? string.Empty}";
         }
     }
 }

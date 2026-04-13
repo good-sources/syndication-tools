@@ -5,8 +5,10 @@ namespace AggregationService.Controllers
     using System.Web.Http;
     using NLog;
     using AggregationService.Domain.Models;
-    using System.Data.Entity.Infrastructure;
     using AggregationService.Domain.Interfaces;
+    using AggregationService.Contracts.Mapping;
+    using AggregationService.Contracts.Requests;
+    using System.Data.Entity.Infrastructure;
 
     [Authorize]
     [RoutePrefix("api/sources")]
@@ -35,7 +37,7 @@ namespace AggregationService.Controllers
         }
 
         [Route("")]
-        public async Task<IHttpActionResult> Post(Source source)
+        public async Task<IHttpActionResult> Post(CreateSourceRequest request)
         {
             try
             {
@@ -44,6 +46,7 @@ namespace AggregationService.Controllers
                     return BadRequest(ModelState);
                 }
 
+                var source = MapperConfig.Mapper.Map<Source>(request);
                 return Json(await _sourceService.AddAsync(source));
             }
             catch (DbUpdateException ex)

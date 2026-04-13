@@ -11,12 +11,20 @@ namespace AggregationService.Tests.Controllers
     using AggregationService.Controllers;
     using AggregationService.Domain.Models;
     using AggregationService.Domain.Interfaces;
+    using AggregationService.Contracts.Mapping;
+    using AggregationService.Contracts.Responses;
 
     [TestFixture]
     public class ContentsControllerTests
     {
         private Mock<IContentService> _mockService;
         private ContentsController _controller;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            MapperConfig.Initialize();
+        }
 
         [SetUp]
         public void SetUp()
@@ -47,7 +55,7 @@ namespace AggregationService.Tests.Controllers
 
             var result = await _controller.GetByCollection(collectionId);
 
-            Assert.That(result, Is.TypeOf<JsonResult<IEnumerable<Content>>>());
+            Assert.That(result, Is.TypeOf<JsonResult<IEnumerable<ContentResponse>>>());
         }
 
         [Test]

@@ -52,16 +52,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceConsumer.cs" />
+    <Compile Include="Models\CollectionModel.cs" />
+    <Compile Include="Models\CreateSourceModel.cs" />
+    <Compile Include="Models\ContentModel.cs" />
+    <Compile Include="Models\SourceType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AggregationService\AggregationService.csproj">
-      <Project>{229a988d-00ec-44c1-91b6-141bb0696b70}</Project>
-      <Name>AggregationService</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,6 +10,7 @@
     <AssemblyName>AggregationService.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.5.1.1\lib\net462\Castle.Core.dll</HintPath>
     </Reference>
@@ -102,7 +106,7 @@
     <Compile Include="Infrastructure\Services\SourceServiceTests.cs" />
     <Compile Include="Infrastructure\Utilities\DateTimeConverterTests.cs" />
     <Compile Include="Infrastructure\Workers\ParserTests.cs" />
-    <Compile Include="Formatting\PolymorphicSourceConverterTests.cs" />
+
     <Compile Include="Integration\AuthIntegrationTests.cs" />
     <Compile Include="Integration\CollectionsIntegrationTests.cs" />
     <Compile Include="Integration\ContentsIntegrationTests.cs" />

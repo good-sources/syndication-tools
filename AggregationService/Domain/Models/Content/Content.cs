@@ -1,9 +1,8 @@
-﻿namespace AggregationService.Domain.Models
+namespace AggregationService.Domain.Models
 {
     using System;
-    using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;   
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public abstract class Content
     {
@@ -14,7 +13,6 @@
 
         public Guid SourceId { get; set; }
 
-        [JsonIgnore]
         public Source Source { get; set; }
     }
 }

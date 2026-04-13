@@ -7,7 +7,7 @@ namespace AggregationServiceClient
     using System.Net.Http.Formatting;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using AggregationService.Domain.Models;
+    using AggregationServiceClient.Models;
 
     class ServiceConsumer
     {
@@ -44,14 +44,14 @@ namespace AggregationServiceClient
             }
         }
 
-        public async Task<IEnumerable<Collection>> GetCollectionsAsync()
+        public async Task<IEnumerable<CollectionModel>> GetCollectionsAsync()
         {
             try
             {
                 using (HttpResponseMessage message = await _client.GetAsync(baseUri.AddSegment("collections")))
                 {
                     message.EnsureSuccessStatusCode();
-                    return await message.Content.ReadAsAsync<IEnumerable<Collection>>();
+                    return await message.Content.ReadAsAsync<IEnumerable<CollectionModel>>();
                 }
             }
             catch
@@ -62,14 +62,9 @@ namespace AggregationServiceClient
 
         public async Task<bool> CreateCollectionAsync(string collectionName)
         {
-            Collection collection = new Collection()
-            {
-                Name = collectionName
-            };
-
             try
             {
-                using (HttpResponseMessage message = await _client.PostAsJsonAsync(baseUri.AddSegment("collections"), collection))
+                using (HttpResponseMessage message = await _client.PostAsJsonAsync(baseUri.AddSegment("collections"), new { Name = collectionName }))
                 {
                     message.EnsureSuccessStatusCode();
                     return true;
@@ -83,9 +78,8 @@ namespace AggregationServiceClient
 
         public async Task<bool> CreateSourceAsync(string input)
         {
-            Source source;
-            Collection collection;
-            IEnumerable<Collection> collections;
+            IEnumerable<CollectionModel> collections;
+            CollectionModel collection;
             string[] sourceFields = input.Split(',');
             string uri, collectionName;
 
@@ -120,18 +114,12 @@ namespace AggregationServiceClient
                     throw new ArgumentException("Invalid collection name");
                 }
 
-                switch ((SourceType)type)
+                var source = new CreateSourceModel
                 {
-                    case SourceType.RSS:
-                        source = new RssFeed()
-                        {
-                            Uri = uri,
-                            CollectionId = collection.Id
-                        };
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid source type");
-                }
+                    Type = type,
+                    Uri = uri,
+                    CollectionId = collection.Id
+                };
 
                 using (HttpResponseMessage message = await _client.PostAsJsonAsync(baseUri.AddSegment("sources"), source))
                 {
@@ -161,10 +149,10 @@ namespace AggregationServiceClient
             }
         }
 
-        public async Task<IEnumerable<Content>> GetContentsByCollectionAsync(string collectionName)
+        public async Task<IEnumerable<ContentModel>> GetContentsByCollectionAsync(string collectionName)
         {
-            IEnumerable<Collection> collections;
-            Collection collection;
+            IEnumerable<CollectionModel> collections;
+            CollectionModel collection;
 
             try
             {
@@ -179,13 +167,7 @@ namespace AggregationServiceClient
                 using (HttpResponseMessage message = await _client.GetAsync(baseUri.AddSegment($"contents/bycollection/{collection.Id}")))
                 {
                     message.EnsureSuccessStatusCode();
-
-                    var formatter = new JsonMediaTypeFormatter
-                    {
-                        SerializerSettings = { TypeNameHandling = TypeNameHandling.Auto }
-                    };
-
-                    return await message.Content.ReadAsAsync<IEnumerable<Content>>(new[] { formatter });
+                    return await message.Content.ReadAsAsync<IEnumerable<ContentModel>>();
                 }
             }
             catch

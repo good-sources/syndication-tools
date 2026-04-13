@@ -2,7 +2,6 @@ namespace AggregationServiceClient
 {
     using System;
     using System.Threading.Tasks;
-    using AggregationService.Domain.Models;
 
     class Program
     {

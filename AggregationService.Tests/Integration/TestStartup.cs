@@ -8,7 +8,7 @@ namespace AggregationService.Tests.Integration
     using Owin;
     using AggregationService.Auth;
     using AggregationService.Domain.Interfaces;
-    using AggregationService.Formatting;
+    using AggregationService.Contracts.Mapping;
 
     public class TestStartup
     {
@@ -41,12 +41,12 @@ namespace AggregationService.Tests.Integration
             app.UseOAuthAuthorizationServer(oAuthOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
+            MapperConfig.Initialize();
+
             var config = new HttpConfiguration();
             config.DependencyResolver = new TestDependencyResolver(
                 _collectionService, _contentService, _sourceService);
             config.MapHttpAttributeRoutes();
-            config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(
-                new PolymorphicSourceConverter());
 
             app.UseWebApi(config);
         }

@@ -12,12 +12,20 @@ namespace AggregationService.Tests.Controllers
     using AggregationService.Controllers;
     using AggregationService.Domain.Models;
     using AggregationService.Domain.Interfaces;
+    using AggregationService.Contracts.Mapping;
+    using AggregationService.Contracts.Requests;
 
     [TestFixture]
     public class SourcesControllerTests
     {
         private Mock<ISourceService> _mockService;
         private SourcesController _controller;
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            MapperConfig.Initialize();
+        }
 
         [SetUp]
         public void SetUp()
@@ -63,8 +71,13 @@ namespace AggregationService.Tests.Controllers
             var expectedId = Guid.NewGuid();
             _mockService.Setup(s => s.AddAsync(It.IsAny<Source>())).ReturnsAsync(expectedId);
 
-            var source = new RssFeed { Uri = "https://example.com/feed", CollectionId = Guid.NewGuid() };
-            var result = await _controller.Post(source);
+            var request = new CreateSourceRequest
+            {
+                Type = (int)SourceType.RSS,
+                Uri = "https://example.com/feed",
+                CollectionId = Guid.NewGuid()
+            };
+            var result = await _controller.Post(request);
 
             Assert.That(result, Is.TypeOf<JsonResult<Guid>>());
             var jsonResult = (JsonResult<Guid>)result;
@@ -76,7 +89,7 @@ namespace AggregationService.Tests.Controllers
         {
             _controller.ModelState.AddModelError("Uri", "Required");
 
-            var result = await _controller.Post(new RssFeed());
+            var result = await _controller.Post(new CreateSourceRequest());
 
             Assert.That(result, Is.TypeOf<InvalidModelStateResult>());
         }
@@ -87,8 +100,13 @@ namespace AggregationService.Tests.Controllers
             _mockService.Setup(s => s.AddAsync(It.IsAny<Source>()))
                 .ThrowsAsync(new DbUpdateException("Duplicate"));
 
-            var source = new RssFeed { Uri = "https://example.com/feed", CollectionId = Guid.NewGuid() };
-            var result = await _controller.Post(source);
+            var request = new CreateSourceRequest
+            {
+                Type = (int)SourceType.RSS,
+                Uri = "https://example.com/feed",
+                CollectionId = Guid.NewGuid()
+            };
+            var result = await _controller.Post(request);
 
             Assert.That(result, Is.TypeOf<ConflictResult>());
         }
@@ -99,8 +117,13 @@ namespace AggregationService.Tests.Controllers
             _mockService.Setup(s => s.AddAsync(It.IsAny<Source>()))
                 .ThrowsAsync(new Exception("Unexpected error"));
 
-            var source = new RssFeed { Uri = "https://example.com/feed", CollectionId = Guid.NewGuid() };
-            var result = await _controller.Post(source);
+            var request = new CreateSourceRequest
+            {
+                Type = (int)SourceType.RSS,
+                Uri = "https://example.com/feed",
+                CollectionId = Guid.NewGuid()
+            };
+            var result = await _controller.Post(request);
 
             Assert.That(result, Is.TypeOf<ExceptionResult>());
         }

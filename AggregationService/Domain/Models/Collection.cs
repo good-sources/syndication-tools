@@ -1,7 +1,6 @@
-﻿namespace AggregationService.Domain.Models
+namespace AggregationService.Domain.Models
 {
     using System;
-    using Newtonsoft.Json;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -15,7 +14,6 @@
         [StringLength(30)]
         public string Name { get; set; }
 
-        [JsonIgnore]
         public ICollection<Source> Sources { get; set; }
     }
 }

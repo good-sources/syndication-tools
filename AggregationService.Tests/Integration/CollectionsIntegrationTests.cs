@@ -10,6 +10,7 @@ namespace AggregationService.Tests.Integration
     using Newtonsoft.Json;
     using NUnit.Framework;
     using AggregationService.Domain.Models;
+    using AggregationService.Contracts.Responses;
 
     [TestFixture]
     public class CollectionsIntegrationTests : IntegrationTestBase
@@ -29,7 +30,7 @@ namespace AggregationService.Tests.Integration
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             var json = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<List<Collection>>(json);
+            var result = JsonConvert.DeserializeObject<List<CollectionResponse>>(json);
             Assert.That(result.Count, Is.EqualTo(2));
             Assert.That(result[0].Name, Is.EqualTo("Tech News"));
         }
