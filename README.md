@@ -20,6 +20,7 @@ Controllers  →  Contracts (DTOs)  →  Services  →  Domain Models  →  Enti
 - **Table-per-type (TPT) inheritance mapping** in Entity Framework for `Source` and `Content` hierarchies
 - **OWIN middleware pipeline** for composable request processing (CORS, OAuth, Web API)
 - **Centralized exception logging** through a custom `IExceptionLogger` implementation
+- **Validation action filter** — a global `ValidateModelAttribute` automatically returns `400 Bad Request` for invalid model state, eliminating repetitive validation checks in controllers
 
 ## Solution Structure
 
@@ -36,6 +37,7 @@ Controllers  →  Contracts (DTOs)  →  Services  →  Domain Models  →  Enti
 | `Contracts/Requests` | Inbound DTOs (`CreateCollectionRequest`, `CreateSourceRequest`) |
 | `Contracts/Responses` | Outbound DTOs (`CollectionResponse`, `SourceResponse`, `ContentResponse`) |
 | `Contracts/Mapping` | AutoMapper profiles and configuration |
+| `App_Start/Filters` | Global action filters (`ValidateModelAttribute`) |
 | `Controllers` | Web API controllers |
 | `Domain/Interfaces` | Service and infrastructure abstractions |
 | `Domain/Models` | Entity classes (`Source`, `Content`, `Collection` hierarchies) |

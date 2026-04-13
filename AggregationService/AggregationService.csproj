@@ -121,6 +121,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Filters\ValidateModelAttribute.cs" />
     <Compile Include="App_Start\NLogExceptionLogger.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Auth\SimpleAuthorizationServerProvider.cs" />

@@ -82,13 +82,22 @@ namespace AggregationService.Tests.Controllers
         }
 
         [Test]
-        public async Task Post_ReturnsBadRequest_WhenModelStateIsInvalid()
+        public void Post_ReturnsBadRequest_WhenModelStateIsInvalid()
         {
-            _controller.ModelState.AddModelError("Name", "Required");
+            var controllerContext = new System.Web.Http.Controllers.HttpControllerContext(
+                _controller.Configuration,
+                new System.Web.Http.Routing.HttpRouteData(new System.Web.Http.Routing.HttpRoute()),
+                _controller.Request);
+            var actionContext = new System.Web.Http.Controllers.HttpActionContext(
+                controllerContext,
+                new Mock<System.Web.Http.Controllers.HttpActionDescriptor>().Object);
+            actionContext.ModelState.AddModelError("Name", "Required");
 
-            var result = await _controller.Post(new CreateCollectionRequest());
+            var filter = new Filters.ValidateModelAttribute();
+            filter.OnActionExecuting(actionContext);
 
-            Assert.That(result, Is.TypeOf<InvalidModelStateResult>());
+            Assert.That(actionContext.Response, Is.Not.Null);
+            Assert.That(actionContext.Response.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.BadRequest));
         }
 
         [Test]

@@ -44,11 +44,6 @@ namespace AggregationService.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 var collection = MapperConfig.Mapper.Map<Collection>(request);
                 return Json(await _collectionService.AddAsync(collection));
             }
